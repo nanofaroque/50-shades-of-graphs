@@ -2,6 +2,10 @@
 
 Problems: 
 1. Articulations point of a graph. 
+2. Minimum Spanning Tree. (With a simple example)
+3. Maximum Spanning Tree. (With a simple example)
+4. DFS (With a simple example)
+5. BFS (With a simple example)
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
