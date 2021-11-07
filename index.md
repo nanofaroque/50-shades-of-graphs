@@ -1,6 +1,7 @@
 ## Welcome to The 50 Shades Of Graphs
-Hello
-You can use the [editor on GitHub](https://github.com/nanofaroque/50-shades-of-graphs/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+
+Problems: 
+1. Articulations point of a graph. 
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
