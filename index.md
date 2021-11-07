@@ -1,4 +1,4 @@
-## Welcome to GitHub Pages
+## Welcome to The 50 Shades Of Graphs
 
 You can use the [editor on GitHub](https://github.com/nanofaroque/50-shades-of-graphs/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
