@@ -1,6 +1,6 @@
 ## Welcome to The 50 Shades Of Graphs
 
-Problems: 
+### Problems: 
 1. Articulations point of a graph. 
 2. Minimum Spanning Tree. (With a simple example)
 3. Maximum Spanning Tree. (With a simple example)
