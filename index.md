@@ -10,6 +10,7 @@
 7. Vertex Coloring
     - how many unique colors so that no two adjacent vertices get same color
     - check if a graph is bi-colorable/bipartite graph
+    - Minimum color needs to color US map
 8. Floyd–Warshall shortest path algorithm
 9. Dijkstra shortest path algorithm
 10. Travelling Salesman problem
