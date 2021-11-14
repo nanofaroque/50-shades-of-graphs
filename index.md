@@ -37,6 +37,7 @@
 30. Centroid of a tree
 31. Shortest Path Faster Algorithm when number of edges (m) = O(n^2). n = number of vertices
 32. Find arbitrage in a graph. 
+33. Detecting Knots in a graph. Here is a reference for us: https://greenteapress.com/complexity/html/thinkcomplexity014.html
 
 
 ## Donation
