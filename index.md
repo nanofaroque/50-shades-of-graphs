@@ -27,7 +27,7 @@
 21. Euler circuit
 22. Strongly Connected Components in a graph
 23. Lowest Common Ancestor (LCA) in a tree
-    - in a binary trr
+    - in a binary tree
 24. Dynamic programming in Tree
 25. Topological sort
 26. Min Cost Min flow problem (MCMF)
