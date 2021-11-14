@@ -36,6 +36,7 @@
 29. Union find with path compression
 30. Centroid of a tree
 31. Shortest Path Faster Algorithm when number of edges (m) = O(n^2). n = number of vertices
+32. Find arbitrage in a graph. 
 
 
 ## Donation
