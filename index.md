@@ -1,7 +1,7 @@
 ## Welcome to The 50 Shades Of Graphs
 
 ### Problems: 
-1. Articulations point of a graph. [click here](#-Articulations-point-of-a-graph)
+1. Articulations point of a graph. [click here](./1.md)
 2. Bridges in a graph
 3. Minimum Spanning Tree. (With a simple example)
 4. Maximum Spanning Tree. (With a simple example)
