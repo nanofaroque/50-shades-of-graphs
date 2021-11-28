@@ -48,9 +48,3 @@ If You like this project and reading articles, you can give us a cup of coffee :
 
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/Faroque?country.x=US&locale.x=en_US)
 
-## Introduction
-An articulation vertex of a connected graph is a vertex whose removal will disconnect the graph (Chartrand 1985). More generally, an articulation vertex is a vertex of a not-necessarily-connected graph whose removal increases the connected component count (Harary 1994, p. 26). Articulation vertices are also called cut-vertices or "cutpoints" (Harary 1994, p. 26).[1]
-
-### References
-1. https://mathworld.wolfram.com/ArticulationVertex.html
-
