@@ -41,7 +41,7 @@
 33. Detecting Knots in a graph. Here is a reference for us: https://greenteapress.com/complexity/html/thinkcomplexity014.html
 34. Minimum Number of press needed to turn off all the lights. It is represented by a matrix like [[0,0],[0,1]], answer is 3 in this case. 
 
-# Articulations point of a graph
+#Articulations point of a graph
 
 ## Donation
 If You like this project and reading articles, you can give us a cup of coffee :) 
