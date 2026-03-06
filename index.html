@@ -1,50 +1,691 @@
-## Welcome to The 50 Shades Of Graphs
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Village to Valley — A Book in Progress</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-### Problems: 
-1. Articulations point of a graph. [click here](./1.md)
-2. Bridges in a graph
-3. Minimum Spanning Tree. (With a simple example)
-4. Maximum Spanning Tree. (With a simple example)
-5. DFS (With a simple example)
-6. BFS (With a simple example)
-7. Vertex Coloring
-    - how many unique colors so that no two adjacent vertices get same color
-    - check if a graph is bi-colorable/bipartite graph
-    - Minimum color needs to color US map
-    - Grouping people to avoid enemies. 
-8. Floyd–Warshall shortest path algorithm
-9. Dijkstra shortest path algorithm
-10. Travelling Salesman problem
-11. check if a graph is a tree
-12. Diameter of a tree
-13. Minimum Vertex cover of a graph
-14. Minimum Vertex cover of a tree
-15. Quadtree
-16. Bellman ford algorithm
-17. Directed Acyclic Graph (DAG)
-18. Edge covering
-19. Flood-Fill algorithm
-20. Hamilton cycle
-21. Euler circuit
-22. Strongly Connected Components in a graph
-23. Lowest Common Ancestor (LCA) in a tree
-    - in a binary tree
-24. Dynamic programming in Tree
-25. Topological sort
-26. Min Cost Min flow problem (MCMF)
-27. Stable marriage problem/ Maximum matching problem
-28. Tree Isomorphism
-29. Union find with path compression
-30. Centroid of a tree
-31. Shortest Path Faster Algorithm when number of edges (m) = O(n^2). n = number of vertices
-32. Find arbitrage in a graph. 
-33. Detecting Knots in a graph. Here is a reference for us: https://greenteapress.com/complexity/html/thinkcomplexity014.html
-34. Minimum Number of press needed to turn off all the lights. It is represented by a matrix like [[0,0],[0,1]], answer is 3 in this case. 
+    :root {
+      --clay:    #c4886b;
+      --earth:   #8b5e3c;
+      --fog:     #e8e0d5;
+      --stone:   #3a3228;
+      --moss:    #6b7c5a;
+      --cream:   #f5f0e8;
+      --ink:     #1e1a14;
+    }
 
-# Articulations point of a graph
+    html { scroll-behavior: smooth; }
 
-###  Donation
-If You like this project and reading articles, you can give us a cup of coffee :) 
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
 
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/Faroque?country.x=US&locale.x=en_US)
+    /* Custom cursor */
+    .cursor {
+      position: fixed;
+      width: 8px; height: 8px;
+      background: var(--clay);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 30px; height: 30px;
+      border: 1px solid var(--clay);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s ease-out, width 0.3s, height 0.3s, opacity 0.3s;
+      opacity: 0.6;
+    }
 
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      background: var(--stone);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 5vw 4vw 8vw 6vw;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Landscape silhouette SVG background */
+    .hero-left::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(107,124,90,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(196,136,107,0.1) 0%, transparent 50%);
+    }
+
+    .landscape-svg {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      opacity: 0.18;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: clamp(0.65rem, 1.2vw, 0.8rem);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--clay);
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.3s forwards;
+    }
+
+    .hero-title {
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 300;
+      line-height: 0.95;
+      color: var(--fog);
+      letter-spacing: -0.02em;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.5s forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--clay);
+      display: block;
+    }
+
+    .hero-divider {
+      width: 3rem;
+      height: 1px;
+      background: var(--clay);
+      margin: 2.5rem 0;
+      opacity: 0;
+      animation: expandLine 0.8s 0.9s forwards;
+      transform-origin: left;
+      transform: scaleX(0);
+    }
+
+    .hero-tagline {
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(232,224,213,0.65);
+      line-height: 1.7;
+      max-width: 26ch;
+      opacity: 0;
+      animation: fadeUp 0.8s 1.1s forwards;
+    }
+
+    /* Right panel */
+    .hero-right {
+      background: var(--fog);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 5vw 6vw 5vw 4vw;
+      position: relative;
+    }
+
+    .hero-right::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--clay) 30%, var(--clay) 70%, transparent);
+      opacity: 0.4;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--moss);
+      border: 1px solid var(--moss);
+      padding: 0.45rem 1rem;
+      border-radius: 2px;
+      margin-bottom: 3.5rem;
+      opacity: 0;
+      animation: fadeIn 0.6s 1.3s forwards;
+    }
+
+    .status-dot {
+      width: 6px; height: 6px;
+      background: var(--moss);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .progress-section {
+      width: 100%;
+      opacity: 0;
+      animation: fadeUp 0.8s 1.5s forwards;
+    }
+
+    .progress-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--earth);
+      margin-bottom: 1rem;
+    }
+
+    .progress-bar-track {
+      width: 100%;
+      height: 2px;
+      background: rgba(58,50,40,0.15);
+      position: relative;
+      margin-bottom: 0.6rem;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--moss), var(--clay));
+      width: 0%;
+      animation: fillBar 1.8s 2s cubic-bezier(0.4,0,0.2,1) forwards;
+    }
+
+    @keyframes fillBar {
+      to { width: 42%; }
+    }
+
+    .progress-nums {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 200;
+      color: rgba(58,50,40,0.5);
+      letter-spacing: 0.05em;
+    }
+
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin-top: 2.5rem;
+      width: 100%;
+      opacity: 0;
+      animation: fadeUp 0.8s 1.8s forwards;
+    }
+
+    .chapter-dot {
+      aspect-ratio: 1;
+      max-width: 44px;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      transition: transform 0.2s;
+      position: relative;
+    }
+
+    .chapter-dot:hover { transform: scale(1.05); }
+
+    .chapter-dot.done {
+      background: var(--stone);
+      color: var(--clay);
+    }
+    .chapter-dot.active {
+      background: var(--clay);
+      color: var(--fog);
+    }
+    .chapter-dot.todo {
+      background: rgba(58,50,40,0.08);
+      color: rgba(58,50,40,0.3);
+      border: 1px dashed rgba(58,50,40,0.2);
+    }
+
+    .chapter-legend {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1.2rem;
+      opacity: 0;
+      animation: fadeIn 0.6s 2.2s forwards;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(58,50,40,0.5);
+    }
+
+    .legend-swatch {
+      width: 8px; height: 8px;
+      border-radius: 1px;
+    }
+
+    /* ─── SECTION: ABOUT ─── */
+    .about {
+      padding: 10vw 8vw;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 5vw;
+      background: var(--cream);
+      position: relative;
+    }
+
+    .section-num {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 200;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--clay);
+      padding-top: 0.4rem;
+    }
+
+    .about-body {
+      max-width: 55ch;
+    }
+
+    .about-body h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.2;
+      margin-bottom: 2rem;
+      color: var(--stone);
+    }
+
+    .about-body h2 em {
+      font-style: italic;
+      color: var(--earth);
+    }
+
+    .about-body p {
+      font-size: clamp(1rem, 1.5vw, 1.15rem);
+      font-weight: 300;
+      line-height: 1.85;
+      color: rgba(30,26,20,0.75);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ─── QUOTE ─── */
+    .quote-strip {
+      background: var(--stone);
+      padding: 6vw 8vw;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quote-strip::before {
+      content: '\201C';
+      position: absolute;
+      top: -0.5em;
+      left: 5vw;
+      font-size: 20rem;
+      line-height: 1;
+      color: rgba(196,136,107,0.08);
+      font-family: 'Cormorant Garamond', serif;
+      pointer-events: none;
+    }
+
+    blockquote {
+      font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--fog);
+      line-height: 1.5;
+      max-width: 48ch;
+      position: relative;
+    }
+
+    blockquote footer {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 200;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--clay);
+      margin-top: 1.8rem;
+      font-style: normal;
+    }
+
+    /* ─── NOTIFY ─── */
+    .notify {
+      padding: 8vw 8vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5vw;
+      align-items: center;
+      background: var(--cream);
+    }
+
+    .notify-text h3 {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 300;
+      line-height: 1.2;
+      color: var(--stone);
+      margin-bottom: 1rem;
+    }
+
+    .notify-text h3 em {
+      font-style: italic;
+      color: var(--clay);
+    }
+
+    .notify-text p {
+      font-size: 1rem;
+      font-weight: 300;
+      color: rgba(30,26,20,0.6);
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .notify-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .notify-form input[type="email"] {
+      border: none;
+      border-bottom: 1px solid rgba(58,50,40,0.25);
+      background: transparent;
+      padding: 0.9rem 0.2rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--ink);
+      outline: none;
+      letter-spacing: 0.05em;
+      transition: border-color 0.2s;
+    }
+
+    .notify-form input[type="email"]::placeholder { color: rgba(30,26,20,0.35); }
+    .notify-form input[type="email"]:focus { border-bottom-color: var(--clay); }
+
+    .notify-form button {
+      align-self: flex-start;
+      margin-top: 0.5rem;
+      background: var(--stone);
+      color: var(--fog);
+      border: none;
+      padding: 0.85rem 2.2rem;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      cursor: none;
+      transition: background 0.25s, color 0.25s;
+    }
+
+    .notify-form button:hover {
+      background: var(--clay);
+      color: white;
+    }
+
+    /* ─── FOOTER ─── */
+    footer.site-footer {
+      border-top: 1px solid rgba(58,50,40,0.12);
+      padding: 2.5rem 8vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'Jost', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 200;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(30,26,20,0.35);
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes expandLine {
+      from { opacity: 0; transform: scaleX(0); }
+      to   { opacity: 1; transform: scaleX(1); }
+    }
+
+    /* Scroll-reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { padding: 8vw 6vw; }
+      .hero-right::before { display: none; }
+      .about { grid-template-columns: 1fr; gap: 1rem; }
+      .notify { grid-template-columns: 1fr; }
+      .chapters-grid { grid-template-columns: repeat(5, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ─── HERO ─── -->
+  <section class="hero">
+    <div class="hero-left">
+      <!-- Landscape silhouette -->
+      <svg class="landscape-svg" viewBox="0 0 800 260" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+        <path d="M0 260 L0 180 Q60 140 120 160 Q180 180 240 120 Q300 60 360 80 Q420 100 480 60 Q540 20 600 50 Q660 80 720 40 Q760 20 800 30 L800 260 Z" fill="rgba(107,124,90,0.8)"/>
+        <path d="M0 260 L0 210 Q80 190 160 200 Q240 210 320 170 Q400 130 480 150 Q560 170 640 140 Q720 110 800 130 L800 260 Z" fill="rgba(58,50,40,0.9)"/>
+        <!-- Village shapes -->
+        <rect x="100" y="188" width="12" height="22" fill="rgba(196,136,107,0.6)"/>
+        <polygon points="94,188 112,188 103,175" fill="rgba(196,136,107,0.5)"/>
+        <rect x="130" y="192" width="10" height="18" fill="rgba(196,136,107,0.4)"/>
+        <polygon points="125,192 140,192 132.5,181" fill="rgba(196,136,107,0.35)"/>
+      </svg>
+
+      <p class="hero-eyebrow">A work in progress</p>
+      <h1 class="hero-title">
+        Village<br/>
+        <em>to Valley</em>
+      </h1>
+      <div class="hero-divider"></div>
+      <p class="hero-tagline">A journey between two worlds — written slowly, with care.</p>
+    </div>
+
+    <div class="hero-right">
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        Currently Writing
+      </div>
+
+      <div class="progress-section">
+        <p class="progress-label">Writing Progress</p>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill"></div>
+        </div>
+        <div class="progress-nums">
+          <span>Chapter 5 of 12</span>
+          <span>~42%</span>
+        </div>
+      </div>
+
+      <div class="chapters-grid">
+        <!-- Done -->
+        <div class="chapter-dot done" title="Chapter 1: Roots">01</div>
+        <div class="chapter-dot done" title="Chapter 2: The Road">02</div>
+        <div class="chapter-dot done" title="Chapter 3: Crossing">03</div>
+        <div class="chapter-dot done" title="Chapter 4: First Light">04</div>
+        <!-- Active -->
+        <div class="chapter-dot active" title="Chapter 5: In Progress">05</div>
+        <!-- Upcoming -->
+        <div class="chapter-dot todo">06</div>
+        <div class="chapter-dot todo">07</div>
+        <div class="chapter-dot todo">08</div>
+        <div class="chapter-dot todo">09</div>
+        <div class="chapter-dot todo">10</div>
+        <div class="chapter-dot todo">11</div>
+        <div class="chapter-dot todo">12</div>
+      </div>
+
+      <div class="chapter-legend">
+        <div class="legend-item">
+          <div class="legend-swatch" style="background:var(--stone)"></div>
+          Complete
+        </div>
+        <div class="legend-item">
+          <div class="legend-swatch" style="background:var(--clay)"></div>
+          Writing
+        </div>
+        <div class="legend-item">
+          <div class="legend-swatch" style="background:rgba(58,50,40,0.08); border:1px dashed rgba(58,50,40,0.2)"></div>
+          Upcoming
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── ABOUT ─── -->
+  <section class="about">
+    <p class="section-num reveal">§ 01 — About</p>
+    <div class="about-body reveal">
+      <h2>A story rooted in <em>place</em> and belonging</h2>
+      <p>
+        <em>Village to Valley</em> is a book about the landscapes we carry within us — the village we come from, the valley we seek, and everything that transforms us in between.
+      </p>
+      <p>
+        It explores memory, movement, and the quiet courage it takes to leave one world and step into another. Told through personal narrative and vivid observation, it is a book about home — and about learning to feel at home in the unfamiliar.
+      </p>
+      <p>
+        This page is a living record of the book as it is being written. Check back to follow its progress.
+      </p>
+    </div>
+  </section>
+
+  <!-- ─── PULL QUOTE ─── -->
+  <section class="quote-strip">
+    <blockquote class="reveal">
+      "Between the village and the valley, there is a road that only you can walk — and walking it changes everything you thought you knew about where you come from."
+      <footer>— From the manuscript</footer>
+    </blockquote>
+  </section>
+
+  <!-- ─── NOTIFY ─── -->
+  <section class="notify">
+    <div class="notify-text reveal">
+      <h3>Be the first to <em>know</em></h3>
+      <p>Leave your email and you'll hear when the book is ready — no noise, just the news.</p>
+    </div>
+    <div class="notify-form reveal">
+      <input type="email" placeholder="your@email.com" />
+      <button onclick="handleNotify(this)">Notify me</button>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="site-footer">
+    <span>Village to Valley</span>
+    <span>© 2026 · Work in Progress</span>
+  </footer>
+
+  <script>
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top  = my + 'px';
+    });
+
+    (function animRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) *.12;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(animRing);
+    })();
+
+    document.querySelectorAll('button, a, input').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.width = '14px'; cursor.style.height = '14px';
+        ring.style.width = '50px'; ring.style.height = '50px';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.width = '8px'; cursor.style.height = '8px';
+        ring.style.width = '30px'; ring.style.height = '30px';
+      });
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.15 });
+    reveals.forEach(r => observer.observe(r));
+
+    // Notify form
+    function handleNotify(btn) {
+      const input = btn.previousElementSibling;
+      const val = input.value.trim();
+      if (!val || !val.includes('@')) {
+        input.style.borderBottomColor = '#c4886b';
+        input.focus();
+        return;
+      }
+      btn.textContent = 'You\'re on the list ✓';
+      btn.style.background = 'var(--moss)';
+      btn.disabled = true;
+      input.disabled = true;
+      input.style.opacity = '0.4';
+    }
+  </script>
+</body>
+</html>
